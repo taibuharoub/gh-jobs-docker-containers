@@ -1,9 +1,9 @@
 name: Deployment (Container)
-on: workflow_dispatch
-  # push:
-  #   branches:
-  #     - main
-  #     - dev
+on:
+  push:
+    branches:
+      - main
+      - dev
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gh-containers
@@ -16,11 +16,18 @@ jobs:
       image: node:16
       # env: # specify env variables needed by the container here
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      MONGODB_CONNECTION_PROTOCOL: mongodb # mongodb specific
+      MONGODB_CLUSTER_ADDRESS: mongodb # if its running inside a container, we'll use the label for the service
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: example
       PORT: 8080
+    services:
+      # can add more than one service, the services labels are up to you eg mongodb
+      mongodb:
+        image: mongo # image from docker hub
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example 
     steps:
       - name: Get Code
         uses: actions/checkout@v3
