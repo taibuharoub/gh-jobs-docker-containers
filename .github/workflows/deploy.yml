@@ -6,11 +6,15 @@ on:
       - dev
 env:
   CACHE_KEY: node-deps
-  MONGODB_DB_NAME: gha-demo
+  MONGODB_DB_NAME: gh-containers
 jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    # container: node:16
+    container:
+      image: node:16
+      # env: # specify env variables needed by the container here
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
