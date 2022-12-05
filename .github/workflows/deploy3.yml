@@ -12,8 +12,8 @@ jobs:
     environment: testing
     runs-on: ubuntu-latest
     # container: node:16
-    container:
-      image: node:16
+    # container:
+    #   image: node:16
       # env: # specify env variables needed by the container here
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb # mongodb specific
